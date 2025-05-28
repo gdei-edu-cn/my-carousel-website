@@ -12,34 +12,30 @@ function showSlide(index, direction) {
 
   slides[index].classList.add('active');
 
-  if (direction === 'prev' && index < currentSlide) {
-    slides[currentSlide].classList.add('prev');
+  if (direction === 'prev') {
+    if (index < currentSlide) {
+      slides[currentSlide].classList.add('prev');
+    }
+  } else {
+    if (index > currentSlide) {
+      slides[currentSlide].style.transform = 'translateY(-20%) scale(0.95)';
+      slides[currentSlide].style.opacity = '0';
+    }
   }
 }
 
 function nextSlide() {
-  const previousSlide = currentSlide;
   currentSlide = (currentSlide + 1) % totalSlides;
   showSlide(currentSlide, 'next');
 }
 
 function prevSlide() {
-  const previousSlide = currentSlide;
   currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
   showSlide(currentSlide, 'prev');
 }
 
 prevButton.addEventListener('click', prevSlide);
 nextButton.addEventListener('click', nextSlide);
-
-// 自动播放
-let autoSlide = setInterval(nextSlide, 3000);
-
-// 鼠标悬停暂停
-sliderContainer.addEventListener('mouseover', () => clearInterval(autoSlide));
-sliderContainer.addEventListener('mouseout', () => {
-  autoSlide = setInterval(nextSlide, 3000);
-});
 
 // 触摸滑动支持
 let touchStartY = 0;
@@ -53,12 +49,9 @@ sliderContainer.addEventListener('touchend', (e) => {
   touchEndY = e.changedTouches[0].clientY;
   const deltaY = touchEndY - touchStartY;
 
-  // 向上滑动（下一张）
   if (deltaY < -50) {
     nextSlide();
-  }
-  // 向下滑动（上一张）
-  else if (deltaY > 50) {
+  } else if (deltaY > 50) {
     prevSlide();
   }
 });
