@@ -4,6 +4,15 @@ const totalSlides = slides.length;
 const prevButton = document.querySelector('.prev');
 const nextButton = document.querySelector('.next');
 const sliderContainer = document.querySelector('.slider-container');
+const introScreen = document.querySelector('.intro-screen');
+const introButton = document.querySelector('.intro-button');
+
+// 点击按钮显示图片页面并隐藏按钮
+introButton.addEventListener('click', () => {
+  introScreen.classList.add('hidden');
+  sliderContainer.classList.remove('hidden');
+  introButton.classList.add('hidden'); // 按钮消失
+});
 
 function showSlide(index, direction) {
   slides.forEach(slide => {
